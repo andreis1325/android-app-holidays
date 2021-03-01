@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">Holidays</string>
+    <string name="home">Home</string>
+    <string name="calendar">Calendar</string>
+    <string name="world">World</string>
+</resources>

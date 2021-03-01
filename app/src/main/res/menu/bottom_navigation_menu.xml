@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/myGalleriesPage"
+        android:icon="@drawable/ic_home"
+        android:title="@string/home" />
+
+    <item
+        android:id="@+id/uploadPhotosPage"
+        android:icon="@drawable/ic_calendar"
+        android:title="@string/calendar" />
+
+    <item
+        android:id="@+id/settingsPage"
+        android:icon="@drawable/ic_world"
+        android:title="@string/world" />
+
+</menu>
