@@ -3,4 +3,12 @@
     <string name="home">Home</string>
     <string name="calendar">Calendar</string>
     <string name="world">World</string>
+    <string name="discover_holidays_worldwide">Discover holidays worldwide!</string>
+    <string name="find_holidays">Find any past and future holidays in any country all around the world.</string>
+    <string name="select_desired_country">Please, select desired country and year</string>
+    <string name="select_country">Country: Select country</string>
+    <string name="select_year">Year: Select year</string>
+    <string name="next">Next</string>
+    <string name="country">Country</string>
+    <string name="search_for_a_country">Search for a country</string>
 </resources>

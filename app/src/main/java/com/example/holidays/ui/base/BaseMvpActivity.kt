@@ -10,9 +10,14 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import com.example.authorization.ui.base.MvpActivity
+import io.github.inflationx.viewpump.ViewPumpContextWrapper
 
 abstract class BaseMvpActivity : MvpActivity(),
     BaseMvpView {
+
+    override fun attachBaseContext(newBase: Context?) {
+        super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase!!))
+    }
 
     companion object {
         const val RESULT_KEY_1 = "result1"
@@ -97,7 +102,15 @@ abstract class BaseMvpActivity : MvpActivity(),
 
         return displayMetrics.widthPixels
     }
+    open fun closeKeyboard() {
+        val imm =
+            this.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+
+        imm.hideSoftInputFromWindow(this.currentFocus?.windowToken, 0)
+    }
 }
+
+
 
 interface OnPermissionListener {
     fun onGranted()

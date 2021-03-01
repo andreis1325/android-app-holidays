@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_16"
+            android:layout_marginTop="@dimen/dp_16"
+            android:layout_marginRight="@dimen/dp_16"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/dp_350"
+                android:layout_gravity="center"
+                android:background="@drawable/ic_party" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_12"
+                android:text="@string/discover_holidays_worldwide"
+                android:textColor="@color/purple"
+                android:textSize="38sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_12"
+                android:text="@string/find_holidays"
+                android:textColor="@color/purple" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_12"
+                android:text="@string/select_desired_country"
+                android:textColor="@color/purple" />
+
+            <TextView
+                android:id="@+id/vTvSelectCountry"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_40"
+                android:text="@string/select_country"
+                android:textColor="@color/purple" />
+
+            <TextView
+                android:id="@+id/vTvSelectYear"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_20"
+                android:text="@string/select_year"
+                android:textColor="@color/purple" />
+
+            <TextView
+                android:id="@+id/vTvNext"
+                style="@style/BoldTextStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_marginTop="@dimen/dp_24"
+                android:gravity="right"
+                android:text="@string/next"
+                android:textColor="@color/purple"
+                android:textSize="@dimen/sp_16" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <com.delivery.utils.view.BottomSheetLayoutWithBackground
+        android:id="@+id/vBottomSheetSelectCountry"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:collapsedHeight="0dp">
+
+        <include
+            layout="@layout/view_country_details"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom" />
+
+    </com.delivery.utils.view.BottomSheetLayoutWithBackground>
+
+    <com.delivery.utils.view.BottomSheetLayoutWithBackground
+        android:id="@+id/vBottomSheetSelectYear"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:collapsedHeight="0dp">
+
+        <include
+            layout="@layout/view_year_details"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom" />
+
+    </com.delivery.utils.view.BottomSheetLayoutWithBackground>
+
+</FrameLayout>
