@@ -83,7 +83,7 @@ abstract class BaseMvpActivity : MvpActivity(),
         showMessage("error during api call")
     }
 
-    fun showSoftKeyboard(view: View) {
+    fun showSoftKeyboard(view: View?) {
         val inputMethodManager =
             getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         inputMethodManager.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT)

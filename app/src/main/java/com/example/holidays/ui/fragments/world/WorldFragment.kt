@@ -1,24 +1,24 @@
-package com.example.holidays.ui.fragments.uploadphotos
+package com.example.holidays.ui.fragments.world
 
 import android.view.View
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.example.gallery_settings.ui.base.BaseMvpFragment
 import com.example.holidays.R
 
-class UploadPhotosFragment : BaseMvpFragment(), UploadPhotosView {
+class WorldFragment : BaseMvpFragment(), WorldView {
 
     @InjectPresenter
-    lateinit var uploadPhotosPresenter: UploadPhotosPresenter
+    lateinit var worldPresenter: WorldPresenter
 
     companion object {
 
-        fun newInstance(): UploadPhotosFragment {
+        fun newInstance(): WorldFragment {
 
-            return UploadPhotosFragment()
+            return WorldFragment()
         }
     }
 
-    override fun getLayoutId(): Int = R.layout.fragment_upload_photos
+    override fun getLayoutId(): Int = R.layout.fragment_world
 
     override fun onViewCreated(view: View) {
         initOnClickListener()

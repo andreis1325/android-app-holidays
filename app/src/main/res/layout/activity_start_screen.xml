@@ -86,9 +86,9 @@
         app:collapsedHeight="0dp">
 
         <include
-            layout="@layout/view_country_details"
+            layout="@layout/view_bottom_sheet"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_gravity="bottom" />
 
     </com.delivery.utils.view.BottomSheetLayoutWithBackground>

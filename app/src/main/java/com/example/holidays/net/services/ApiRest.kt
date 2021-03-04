@@ -1,12 +1,9 @@
 package com.example.holidays.net.services
 
-import android.content.SharedPreferences
-import com.example.holidays.MyApp
 import com.google.gson.GsonBuilder
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
-import org.kodein.di.instance
 import retrofit2.Converter
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
@@ -16,9 +13,9 @@ import java.util.concurrent.TimeUnit
 
 class ApiRest {
     companion object {
-        private val preferences: SharedPreferences by MyApp.kodein.instance()
 
-        private var BASE_URL = "https://test.spaceflightnewsapi.net"
+        private var BASE_URL = "https://calendarific.com/api/v2/"
+        private var KEY = "e56f075e3163fe92464fe6229d911a71404e8cef"
 
         internal fun getApi(): Retrofit {
 
@@ -52,14 +49,19 @@ class ApiRest {
                     level = HttpLoggingInterceptor.Level.BODY
                 })
                 .addInterceptor { chain ->
-                    val request = chain.request()
-                    val response = chain.proceed(request)
+                    val request = chain.request().newBuilder()
+                    val requestBuilder = chain.request().url
+                    val url = requestBuilder.newBuilder()
+                        .addQueryParameter("api_key", KEY)
+                        .build()
 
-                    response
+                    request.url(url)
+                    chain.proceed(request.build())
                 }
                 .addNetworkInterceptor(Interceptor { chain ->
                     val requestBuilder = chain.request().newBuilder()
                     chain.proceed(requestBuilder.build())
+
                 })
                 .connectTimeout(10, TimeUnit.SECONDS)
                 .writeTimeout(10, TimeUnit.SECONDS)

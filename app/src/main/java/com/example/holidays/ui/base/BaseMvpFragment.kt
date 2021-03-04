@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import androidx.annotation.LayoutRes
 import com.delivery.ui.base.MvpFragment
+import kotlinx.android.synthetic.main.view_bottom_sheet.*
 
 abstract class BaseMvpFragment : MvpFragment(),
     BaseMvpView {
@@ -50,6 +51,11 @@ abstract class BaseMvpFragment : MvpFragment(),
         (activity as? BaseMvpActivity)?.hideKeyboard()
     }
 
+    open fun showKeyboard(view: View) {
+        val imm =
+            requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.showSoftInput(view, 0)
+    }
     open fun scrollToTheTop() {}
 
     open fun closeKeyboard() {

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_margin="@dimen/dp_12"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    app:cardCornerRadius="18dp">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="@dimen/dp_8">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/vTvHolidayName"
+                style="@style/BoldTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxLength="30"
+                android:text="@string/new_year_s_day"
+                android:textColor="@color/black"
+                android:textSize="@dimen/sp_18" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+
+            <FrameLayout
+                android:id="@+id/vFlTime"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:background="@drawable/bg_yellow_circle">
+
+                <ImageView
+                    android:id="@+id/vIvTime"
+                    android:layout_width="@dimen/dp_24"
+                    android:layout_height="@dimen/dp_24"
+                    android:background="@drawable/ic_clock" />
+
+            </FrameLayout>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/vTvHolidayDate"
+            android:layout_marginTop="@dimen/dp_4"
+            style="@style/RegularTextStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/_1_jan_2023"
+            android:textColor="@color/purple"/>
+
+        <TextView
+            android:id="@+id/vTvHolidayDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/gray"
+            android:layout_marginTop="@dimen/dp_12"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:text="@string/new_year"/>
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

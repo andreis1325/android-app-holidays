@@ -7,19 +7,20 @@ import android.text.SpannableStringBuilder
 import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
 import android.view.View
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.example.gallery_settings.ui.base.BaseMvpActivity
-import com.example.gallery_settings.utils.extensions.setBold
-import com.example.gallery_settings.utils.extensions.setClickable
-import com.example.gallery_settings.utils.extensions.setColor
+import com.example.gallery_settings.utils.extensions.*
 import com.example.holidays.R
+import com.example.holidays.net.responses.Country
 import com.example.holidays.ui.navigation.NavigationActivity
 import com.example.holidays.ui.startscreen.countriesadapter.CountriesAdapter
 import com.example.holidays.utils.extended.SimpleTextWatcher
 import kotlinx.android.synthetic.main.activity_start_screen.*
-import kotlinx.android.synthetic.main.view_country_details.*
+import kotlinx.android.synthetic.main.view_bottom_sheet.*
 import kotlinx.android.synthetic.main.view_year_details.*
+
 
 class StartScreenActivity : BaseMvpActivity(), StartScreenView {
 
@@ -32,22 +33,32 @@ class StartScreenActivity : BaseMvpActivity(), StartScreenView {
 
     override fun onCreateActivity(savedInstanceState: Bundle?) {
         initAdapter()
+        startScreenPresenter.onCreate(countriesAdapter.itemClickObservable)
         setSpannables()
         initNumberPicker()
         initOnClickListeners()
-        startScreenPresenter.onCreate(countriesAdapter.itemClickObservable)
-
     }
 
     private fun initNumberPicker() {
-        vNpYears.apply {
-            minValue = 1990
-            maxValue = 2021
+
+        vNpvYears.apply {
+            displayedValues = Array(48) { i -> (i + 2000).toString() }
+            minValue = 2000
+            maxValue = 2047
+            setFriction(0.02f)
             wrapSelectorWheel = false
         }
     }
 
     private fun initOnClickListeners() {
+
+        vIvSearch.setOnClickListener {
+            startScreenPresenter.onSearchClicked()
+        }
+
+        vIvCancel.setOnClickListener {
+            startScreenPresenter.onCancelClicked()
+        }
 
         vEtCountrySearch?.addTextChangedListener(object : SimpleTextWatcher() {
 
@@ -56,15 +67,16 @@ class StartScreenActivity : BaseMvpActivity(), StartScreenView {
             }
         })
 
-        vNpYears.setOnValueChangedListener { picker, oldVal, newVal ->
+        vNpvYears.setOnValueChangedListener { picker, oldVal, newVal ->
+
             startScreenPresenter.onNumberPickerValueChanged(newVal)
         }
 
-        vIvBack.setOnClickListener{
+        vIvBack.setOnClickListener {
             startScreenPresenter.onBackClicked()
         }
 
-        vTvNext.setOnClickListener{
+        vTvNext.setOnClickListener {
             startScreenPresenter.onNextClicked()
         }
     }
@@ -82,17 +94,17 @@ class StartScreenActivity : BaseMvpActivity(), StartScreenView {
     private fun setSpannableForSelectYear(year: String = "") {
         var yearTitle: String = getString(R.string.select_year)
 
-        if(year != "")
+        if (year != "")
             yearTitle = yearTitle.substring(0, 6) + year
 
         val spannableStringBuilder =
             SpannableStringBuilder(yearTitle)
-                .setBold(assets,0, 4 )
+                .setBold(assets, 0, 4)
                 .setClickable(onSelectYearClick(), 6)
                 .setColor(ContextCompat.getColor(this, R.color.purple))
 
-        vTvSelectYear.apply{
-            text  = spannableStringBuilder
+        vTvSelectYear.apply {
+            text = spannableStringBuilder
             movementMethod = LinkMovementMethod.getInstance()
             highlightColor = Color.TRANSPARENT
         }
@@ -106,20 +118,20 @@ class StartScreenActivity : BaseMvpActivity(), StartScreenView {
         }
     }
 
-    private fun setSpannableForSelectCountry(country: String="") {
+    private fun setSpannableForSelectCountry(country: String = "") {
         var title: String = getString(R.string.select_country)
 
-        if(country!="")
+        if (country != "")
             title = title.substring(0, 9) + country
 
         val spannableStringBuilder =
             SpannableStringBuilder(title)
-                .setBold(assets,0, 8 )
+                .setBold(assets, 0, 8)
                 .setClickable(onSelectCountryClick(), 8)
                 .setColor(ContextCompat.getColor(this, R.color.purple))
 
-        vTvSelectCountry.apply{
-            text  = spannableStringBuilder
+        vTvSelectCountry.apply {
+            text = spannableStringBuilder
             movementMethod = LinkMovementMethod.getInstance()
             highlightColor = Color.TRANSPARENT
         }
@@ -137,14 +149,15 @@ class StartScreenActivity : BaseMvpActivity(), StartScreenView {
         vBottomSheetSelectCountry.toggle()
     }
 
-    override fun setCountry(country: String) {
+    override fun setCountry(country: String?) {
         vBottomSheetSelectCountry.toggle()
         vEtCountrySearch.setText("")
         closeKeyboard()
-        setSpannableForSelectCountry(country)
+        setSpannableForSelectCountry(country ?: "")
+        vEtCountrySearch.clearFocus()
     }
 
-    override fun updateCountries(countryList: ArrayList<String>) {
+    override fun updateCountries(countryList: ArrayList<Country>) {
         countriesAdapter.setItems(countryList)
     }
 
@@ -158,5 +171,30 @@ class StartScreenActivity : BaseMvpActivity(), StartScreenView {
 
     override fun goToNavigationActivity() {
         startActivity(Intent(this, NavigationActivity::class.java))
+        finish()
+    }
+
+    override fun changeImageAndHideKeyboard() {
+        vIvCancel.gone()
+        vIvSearch.visible()
+        closeKeyboard()
+        vEtCountrySearch.clearFocus()
+    }
+
+    override fun changeImageAndShowKeyboard() {
+
+        vIvSearch.gone()
+        vTvCountrySearch.gone()
+
+        vIvCancel.visible()
+        vEtCountrySearch.visible()
+
+        vEtCountrySearch.requestFocus()
+        showSoftKeyboard(this.currentFocus)
+    }
+
+    override fun changeImages() {
+        vIvSearch.gone()
+        vIvCancel.visible()
     }
 }

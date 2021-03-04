@@ -1,9 +1,9 @@
-package com.example.holidays.ui.fragments.mygallery
+package com.example.holidays.ui.fragments.world
 
 import com.arellomobile.mvp.InjectViewState
 import com.example.holidays.ui.base.BaseMvpPresenter
 
 @InjectViewState
-class MyGalleryPresenter : BaseMvpPresenter<MyGalleryView>() {
+class WorldPresenter : BaseMvpPresenter<WorldView>() {
 
 }

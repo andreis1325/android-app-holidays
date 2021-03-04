@@ -15,6 +15,8 @@ import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.TextView
 import com.example.holidays.utils.extended.CustomTypefaceSpan
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 fun View.visible() {
@@ -74,6 +76,13 @@ fun SpannableStringBuilder.setBold(
     )
 
     return this
+}
+
+fun String?.toDateFormat(): String{
+
+    val formatter = SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH)
+    val date = formatter.parse(this)
+    return  SimpleDateFormat("dd MMM yyyy",Locale.ENGLISH ).format(date) ?: ""
 }
 
 fun SpannableStringBuilder.setClickable(

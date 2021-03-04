@@ -4,6 +4,10 @@ import android.app.Application
 import android.content.SharedPreferences
 import com.example.holidays.net.services.ApiRest
 import com.example.holidays.model.PreferencesUtils
+import com.example.holidays.net.repo.CountryRepo
+import com.example.holidays.net.repo.HolidayRepo
+import com.example.holidays.net.services.CountryService
+import com.example.holidays.net.services.HolidayService
 import io.github.inflationx.calligraphy3.CalligraphyConfig
 import io.github.inflationx.calligraphy3.CalligraphyInterceptor
 import io.github.inflationx.viewpump.ViewPump
@@ -24,13 +28,20 @@ class MyApp : Application() {
         bind<Retrofit>() with singleton { ApiRest.getApi() }
 
         bind<CompositeDisposable>() with provider { CompositeDisposable() }
-        /*bind<ArticleRepo>() with singleton {
-            ArticleRepo(
+        bind<HolidayRepo>() with singleton {
+            HolidayRepo(
                 instance<Retrofit>().create(
-                    ArticleService::class.java
+                    HolidayService::class.java
                 )
             )
-        }*/
+        }
+        bind<CountryRepo>() with singleton {
+            CountryRepo(
+                instance<Retrofit>().create(
+                    CountryService::class.java
+                )
+            )
+        }
 
     }
 

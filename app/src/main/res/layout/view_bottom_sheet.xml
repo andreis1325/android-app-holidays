@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:padding="@dimen/dp_16"
+    android:focusableInTouchMode="true"
     android:layout_height="match_parent"
     android:background="@color/white"
     android:orientation="vertical">
@@ -25,12 +26,24 @@
         android:background="@drawable/bg_country_search">
 
         <ImageView
+            android:id="@+id/vIvSearch"
             android:layout_marginLeft="@dimen/dp_12"
             android:layout_width="26dp"
             android:layout_height="26dp"
             android:layout_gravity="center"
             android:background="@drawable/ic_search"
             android:layout_marginStart="@dimen/dp_12" />
+
+        <ImageView
+            android:id="@+id/vIvCancel"
+            android:layout_marginLeft="@dimen/dp_12"
+            android:layout_width="26dp"
+            android:layout_height="26dp"
+            android:layout_gravity="center"
+            android:background="@drawable/ic_cancel"
+            android:visibility="gone"
+            android:layout_marginStart="@dimen/dp_12" />
+
 
         <EditText
             android:id="@+id/vEtCountrySearch"
@@ -39,7 +52,17 @@
             android:layout_marginLeft="@dimen/dp_12"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:visibility="gone"
             android:backgroundTint="@android:color/transparent"
+            android:layout_marginStart="@dimen/dp_12" />
+
+        <TextView
+            android:id="@+id/vTvCountrySearch"
+            android:paddingTop="@dimen/dp_8"
+            android:paddingBottom="@dimen/dp_8"
+            android:layout_marginLeft="@dimen/dp_12"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:hint="@string/search_for_a_country"
             android:layout_marginStart="@dimen/dp_12" />
 
@@ -48,7 +71,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/vRvCountries"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         android:layout_marginTop="@dimen/dp_8"/>
 

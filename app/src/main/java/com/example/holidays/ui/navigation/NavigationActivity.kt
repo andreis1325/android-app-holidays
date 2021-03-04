@@ -1,17 +1,21 @@
 package com.example.holidays.ui.navigation
 
 import android.os.Bundle
+import android.view.WindowManager
+import android.widget.Toast
 import androidx.fragment.app.FragmentTransaction
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.example.gallery_settings.ui.base.BaseMvpFragment
 import com.example.gallery_settings.ui.base.BaseMvpActivity
-import com.example.holidays.ui.fragments.mygallery.MyGalleryFragment
-import com.example.holidays.ui.fragments.settings.SettingsFragment
-import com.example.holidays.ui.fragments.uploadphotos.UploadPhotosFragment
+import com.example.holidays.ui.fragments.world.WorldFragment
+import com.example.holidays.ui.fragments.calendar.CalendarFragment
+import com.example.holidays.ui.fragments.home.HomeFragment
 import com.example.holidays.R
 import com.ncapdevi.fragnav.FragNavController
 import com.ncapdevi.fragnav.FragNavTransactionOptions
 import kotlinx.android.synthetic.main.activity_navigation.*
+import java.lang.System.exit
+import kotlin.system.exitProcess
 
 class NavigationActivity : BaseMvpActivity(), NavigationView {
 
@@ -23,13 +27,14 @@ class NavigationActivity : BaseMvpActivity(), NavigationView {
     }
 
     private val fragments: List<BaseMvpFragment> = listOf(
-        MyGalleryFragment.newInstance(),
-        UploadPhotosFragment.newInstance(),
-        SettingsFragment.newInstance()
+        HomeFragment.newInstance(),
+        CalendarFragment.newInstance(),
+        WorldFragment.newInstance()
     )
 
     override fun onBackPressed() {
 
+        exitOrShowMessage()
     }
 
     @InjectPresenter
@@ -71,5 +76,14 @@ class NavigationActivity : BaseMvpActivity(), NavigationView {
                 else -> false
             }
         }
+    }
+
+    private fun exitOrShowMessage() {
+        if (backPressed + TIME > System.currentTimeMillis()) {
+            super.onBackPressed()
+        } else {
+            Toast.makeText(this, getString(R.string.exit), Toast.LENGTH_SHORT).show()
+        }
+        backPressed = System.currentTimeMillis()
     }
 }

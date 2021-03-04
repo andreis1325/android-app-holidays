@@ -19,7 +19,7 @@ android {
 
 
     defaultConfig {
-        applicationId "com.example.authorization"
+
         minSdkVersion 16
         targetSdkVersion 30
         versionCode 1
@@ -107,4 +107,7 @@ dependencies {
     // Calligraphy
     implementation "io.github.inflationx:calligraphy3:3.1.1"
     implementation 'io.github.inflationx:viewpump:2.0.3'
+
+    //NumberPickerView
+    implementation 'cn.carbswang.android:NumberPickerView:1.2.0'
 }

@@ -14,6 +14,9 @@ class PreferencesUtils {
         private const val PREFERENCES = "PREFERENCES"
         const val GOOGLE_EMAIL: String = "GOOGLE_EMAIL"
         const val GOOGLE_ID: String = "GOOGLE_ID"
+        const val COUNTRY: String = "COUNTRY"
+        const val YEAR: String = "YEAR"
+        const val ISO: String = "ISO"
     }
 }
 
@@ -22,6 +25,18 @@ inline fun SharedPreferences.editMe(operation: (SharedPreferences.Editor) -> Uni
     operation(editMe)
     editMe.apply()
 }
+
+var SharedPreferences.country: String?
+    get() = getString(PreferencesUtils.COUNTRY, "")
+    set(value) = editMe { it.putString(PreferencesUtils.COUNTRY, value) }
+
+var SharedPreferences.iso: String?
+    get() = getString(PreferencesUtils.ISO, "")
+    set(value) = editMe { it.putString(PreferencesUtils.ISO, value) }
+
+var SharedPreferences.year: Int
+    get() = getInt(PreferencesUtils.YEAR, 0)
+    set(value) = editMe { it.putInt(PreferencesUtils.YEAR, value) }
 
 var SharedPreferences.googleEmail: String?
     get() = getString(PreferencesUtils.GOOGLE_EMAIL, "")

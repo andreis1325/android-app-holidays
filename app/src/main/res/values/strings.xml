@@ -8,7 +8,13 @@
     <string name="select_desired_country">Please, select desired country and year</string>
     <string name="select_country">Country: Select country</string>
     <string name="select_year">Year: Select year</string>
+    <string name="exit">Press once again to exit!</string>
     <string name="next">Next</string>
     <string name="country">Country</string>
     <string name="search_for_a_country">Search for a country</string>
+    <string name="by">BY</string>
+    <string name="_2012">2012</string>
+    <string name="new_year_s_day">New Year\'s Day</string>
+    <string name="_1_jan_2023">1 Jan 2023</string>
+    <string name="new_year">New Year\'s Day is the first day of the year, or January 1, in the world I am true</string>
 </resources>

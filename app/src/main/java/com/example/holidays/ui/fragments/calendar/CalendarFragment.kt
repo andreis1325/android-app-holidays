@@ -1,22 +1,22 @@
-package com.example.holidays.ui.fragments.settings
+package com.example.holidays.ui.fragments.calendar
 
 import android.view.View
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.example.gallery_settings.ui.base.BaseMvpFragment
 import com.example.holidays.R
 
-class SettingsFragment : BaseMvpFragment(), SettingsView {
+class CalendarFragment : BaseMvpFragment(), CalendarView {
 
     @InjectPresenter
-    lateinit var settingsPresenter: SettingsPresenter
+    lateinit var calendarPresenter: CalendarPresenter
 
     companion object {
-        fun newInstance(): SettingsFragment {
-            return SettingsFragment()
+        fun newInstance(): CalendarFragment {
+            return CalendarFragment()
         }
     }
 
-    override fun getLayoutId(): Int = R.layout.fragment_settings
+    override fun getLayoutId(): Int = R.layout.fragment_calendar
 
     override fun onViewCreated(view: View) {
 

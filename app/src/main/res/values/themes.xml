@@ -14,7 +14,18 @@
         <!-- Customize your theme here. -->
     </style>
 
-
+    <style name="CustomNumberPicker" >
+        <item name="npv_DividerHeight">@dimen/dp_4</item>
+        <item name="npv_TextColorNormal">@color/gray</item>
+        <item name="npv_TextColorSelected">@color/black</item>
+        <item name="npv_DividerColor">@color/gray</item>
+        <item name="npv_ItemPaddingHorizontal">@dimen/dp_12</item>
+        <item name="npv_ItemPaddingVertical">@dimen/dp_10</item>
+        <item name="npv_TextSizeNormal">@dimen/sp_16</item>
+        <item name="npv_TextSizeSelected">@dimen/sp_20</item>
+        <item name="npv_WrapSelectorWheel">true</item>
+        <item name="fontPath">font/OpenSans-Regular.ttf</item>
+    </style>
 
     <style name="RegularTextStyle" parent="android:TextAppearance">
         <item name="fontPath">font/OpenSans-Regular.ttf</item>

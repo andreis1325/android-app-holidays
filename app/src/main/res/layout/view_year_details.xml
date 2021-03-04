@@ -13,11 +13,12 @@
         android:layout_height="@dimen/dp_28"
         android:background="@drawable/ic_back"/>
 
-    <NumberPicker
-        android:id="@+id/vNpYears"
+    <cn.carbswang.android.numberpickerview.library.NumberPickerView
+        style="@style/CustomNumberPicker"
+        android:id="@+id/vNpvYears"
+        android:layout_width="150dp"
         android:layout_gravity="center"
-        android:layout_width="@dimen/dp_100"
-        android:layout_height="wrap_content"
-        />
+        android:layout_height="@dimen/dp_200"
+        android:layout_marginTop="20dp" />
 
 </LinearLayout>
