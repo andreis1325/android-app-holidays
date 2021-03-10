@@ -10,6 +10,7 @@
     <string name="select_year">Year: Select year</string>
     <string name="exit">Press once again to exit!</string>
     <string name="next">Next</string>
+    <string name="fill_info">Fill info</string>
     <string name="country">Country</string>
     <string name="search_for_a_country">Search for a country</string>
     <string name="by">BY</string>

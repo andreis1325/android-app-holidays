@@ -7,20 +7,18 @@ import android.text.SpannableStringBuilder
 import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
 import android.view.View
-import android.widget.Toast
 import androidx.core.content.ContextCompat
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.example.gallery_settings.ui.base.BaseMvpActivity
-import com.example.gallery_settings.utils.extensions.*
 import com.example.holidays.R
 import com.example.holidays.net.responses.Country
 import com.example.holidays.ui.navigation.NavigationActivity
 import com.example.holidays.ui.startscreen.countriesadapter.CountriesAdapter
 import com.example.holidays.utils.extended.SimpleTextWatcher
+import com.example.holidays.utils.extensions.*
 import kotlinx.android.synthetic.main.activity_start_screen.*
 import kotlinx.android.synthetic.main.view_bottom_sheet.*
 import kotlinx.android.synthetic.main.view_year_details.*
-
 
 class StartScreenActivity : BaseMvpActivity(), StartScreenView {
 
@@ -29,24 +27,31 @@ class StartScreenActivity : BaseMvpActivity(), StartScreenView {
 
     private lateinit var countriesAdapter: CountriesAdapter
 
+    companion object{
+        private const val FRICTION = 0.02f
+    }
+
     override fun getLayoutId(): Int = R.layout.activity_start_screen
 
     override fun onCreateActivity(savedInstanceState: Bundle?) {
         initAdapter()
         startScreenPresenter.onCreate(countriesAdapter.itemClickObservable)
-        setSpannables()
+        setSpannableForSelectCountry()
+        setSpannableForSelectYear()
         initNumberPicker()
         initOnClickListeners()
     }
 
     private fun initNumberPicker() {
 
+        val min = resources.getInteger(R.integer.min_year)
+        val max = resources.getInteger(R.integer.max_year)
+
         vNpvYears.apply {
-            displayedValues = Array(48) { i -> (i + 2000).toString() }
-            minValue = 2000
-            maxValue = 2047
-            setFriction(0.02f)
-            wrapSelectorWheel = false
+            displayedValues = Array(max - min+1) { index -> (index+min).toString() }
+            minValue = min
+            maxValue = max
+            setFriction(FRICTION)
         }
     }
 
@@ -67,7 +72,7 @@ class StartScreenActivity : BaseMvpActivity(), StartScreenView {
             }
         })
 
-        vNpvYears.setOnValueChangedListener { picker, oldVal, newVal ->
+        vNpvYears.setOnValueChangedListener { _, _, newVal ->
 
             startScreenPresenter.onNumberPickerValueChanged(newVal)
         }
@@ -79,11 +84,6 @@ class StartScreenActivity : BaseMvpActivity(), StartScreenView {
         vTvNext.setOnClickListener {
             startScreenPresenter.onNextClicked()
         }
-    }
-
-    private fun setSpannables() {
-        setSpannableForSelectCountry()
-        setSpannableForSelectYear()
     }
 
     private fun initAdapter() {
@@ -149,15 +149,15 @@ class StartScreenActivity : BaseMvpActivity(), StartScreenView {
         vBottomSheetSelectCountry.toggle()
     }
 
-    override fun setCountry(country: String?) {
+    override fun setCountryAndCloseBottomSheet(country: String) {
         vBottomSheetSelectCountry.toggle()
         vEtCountrySearch.setText("")
         closeKeyboard()
-        setSpannableForSelectCountry(country ?: "")
+        setSpannableForSelectCountry(country)
         vEtCountrySearch.clearFocus()
     }
 
-    override fun updateCountries(countryList: ArrayList<Country>) {
+    override fun updateCountries(countryList: MutableList<Country>) {
         countriesAdapter.setItems(countryList)
     }
 
@@ -177,6 +177,7 @@ class StartScreenActivity : BaseMvpActivity(), StartScreenView {
     override fun changeImageAndHideKeyboard() {
         vIvCancel.gone()
         vIvSearch.visible()
+
         closeKeyboard()
         vEtCountrySearch.clearFocus()
     }

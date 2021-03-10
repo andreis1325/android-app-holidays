@@ -12,20 +12,20 @@ data class Meta (
 )
 
 data class Response (
-    val holidays: ArrayList<Holiday> = arrayListOf(),
-    val countries: ArrayList<Country> = arrayListOf()
+    val holidays: MutableList<Holiday> = arrayListOf(),
+    val countries: MutableList<Country> = arrayListOf()
 )
 
 data class Country(
-    @SerializedName("country_name")     val countryName: String? = null,
-    @SerializedName("iso-3166")         val iso: String? = null
+    @SerializedName("country_name")     val countryName:    String? = null,
+    @SerializedName("iso-3166")         val iso:            String? = null
 )
 
 data class Holiday (
     val name: String? = null,
     val description: String? = null,
     val date: Date? = null,
-    val type: List<String>? = null
+    val type: MutableList<String>? = null
 )
 
 data class Date (
@@ -34,7 +34,7 @@ data class Date (
 )
 
 data class Datetime (
-    val year: Long? = null,
-    val month: Long? = null,
-    val day: Long? = null
+    val year: Int? = null,
+    val month: Int? = null,
+    val day: Int? = null
 )

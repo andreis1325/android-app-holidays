@@ -6,8 +6,8 @@ import com.example.holidays.net.responses.Country
 interface StartScreenView: BaseMvpView {
 
     fun showOrHideBottomSheetSelectCountry()
-    fun setCountry(country: String?)
-    fun updateCountries(countryList: ArrayList<Country>)
+    fun setCountryAndCloseBottomSheet(country: String)
+    fun updateCountries(countryList: MutableList<Country>)
     fun showOrHideBottomSheetSelectYear()
     fun setYear(year: String)
     fun goToNavigationActivity()

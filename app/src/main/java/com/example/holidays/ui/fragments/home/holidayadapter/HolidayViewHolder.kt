@@ -1,14 +1,15 @@
 package com.example.holidays.ui.fragments.home.holidayadapter
 
 import android.view.View
-import androidx.core.content.ContextCompat
-import com.example.gallery_settings.utils.extensions.toDateFormat
+import com.bumptech.glide.Glide
+import com.example.holidays.utils.extensions.toDateFormat
 import com.example.holidays.R
 import com.example.holidays.net.responses.Date
 import com.example.holidays.net.responses.Holiday
 import com.example.holidays.ui.base.BaseViewHolder
 import io.reactivex.subjects.PublishSubject
 import kotlinx.android.synthetic.main.item_holiday_details.view.*
+import org.joda.time.LocalDate
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -17,28 +18,38 @@ class HolidayViewHolder(
     var itemClickSubject: PublishSubject<Holiday>
 ) : BaseViewHolder<Holiday>(itemView) {
 
-    override fun bind(model: Holiday) {
-        setModel(model)
+    companion object {
+        var DATE_FORMAT = "yyyy-MM-dd"
     }
 
-    private fun setModel(model: Holiday) {
+    override fun bind(model: Holiday) {
         setName(model.name ?: "")
         setDescription(model.description)
         setDate(model.date)
-        setPicture(model.date?.iso)
+        setPicture(model.date?.iso ?: "")
     }
 
-    private fun setPicture(iso: String?) {
+    private fun setPicture(iso: String) {
 
-        val sdf = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse(iso)
-        val date1 = Calendar.getInstance().time
+        val modelDate = SimpleDateFormat(DATE_FORMAT, Locale.getDefault()).parse(iso)
+        val currentDate =
+            SimpleDateFormat(DATE_FORMAT, Locale.getDefault()).parse(LocalDate.now().toString())
 
-        if (date1.compareTo(sdf) == 1) {
+        if (modelDate?.time ?: 0 < currentDate?.time ?: 0) {
             itemView.vFlTime.setBackgroundResource(R.drawable.bg_green_circle)
-            itemView.vIvTime.setBackgroundResource(R.drawable.ic_check)
+
+            Glide.with(context)
+                .load(R.drawable.ic_check)
+                .centerCrop()
+                .into(itemView.vIvTime)
+
         } else {
             itemView.vFlTime.setBackgroundResource(R.drawable.bg_yellow_circle)
-            itemView.vIvTime.setBackgroundResource(R.drawable.ic_clock)
+
+            Glide.with(context)
+                .load(R.drawable.ic_clock)
+                .centerCrop()
+                .into(itemView.vIvTime)
         }
     }
 
@@ -51,9 +62,6 @@ class HolidayViewHolder(
     }
 
     private fun setName(name: String) {
-        if (name.length > 30)
-            itemView.vTvHolidayName.text = name.substring(0, 27) + "..."
-        else
             itemView.vTvHolidayName.text = name
     }
 }

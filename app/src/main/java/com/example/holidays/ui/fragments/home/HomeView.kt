@@ -8,13 +8,13 @@ import java.util.ArrayList
 
 interface HomeView : BaseMvpView {
 
-    fun setCountryAndYear(country: String?, year: Int)
+    fun setCountryAndYear(country: String, year: Int)
     fun showOrHideBottomSheetSelectCountry()
-    fun updateCountries(countryList: ArrayList<Country>)
-    fun setCountry(country: String?)
+    fun updateCountries(countryList: MutableList<Country>)
+    fun setCountryAndCloseBottomSheet(country: String)
     fun showOrHideBottomSheetSelectYear()
     fun setYear(year: String)
-    fun updateHolidays(holidayList: ArrayList<Holiday>)
+    fun updateHolidays(holidayList: MutableList<Holiday>)
     fun showModel(it: String)
     fun changeImageAndShowKeyboard()
     fun changeImageAndHideKeyboard()

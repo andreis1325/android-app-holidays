@@ -4,6 +4,4 @@ import com.arellomobile.mvp.InjectViewState
 import com.example.holidays.ui.base.BaseMvpPresenter
 
 @InjectViewState
-class WorldPresenter : BaseMvpPresenter<WorldView>() {
-
-}
+class WorldPresenter : BaseMvpPresenter<WorldView>()

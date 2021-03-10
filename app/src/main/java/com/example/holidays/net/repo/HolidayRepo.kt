@@ -6,7 +6,8 @@ import io.reactivex.Observable
 
 class HolidayRepo(private val api: HolidayService) {
 
-    fun getHolidays(country: String, year: Int ): Observable<ArrayList<Holiday>> = api.getHolidays(country, year).map {
-        it.response?.holidays
-    }
+    fun getHolidays(country: String , year: Int): Observable<MutableList<Holiday>> =
+        api.getHolidays(country, year).map {
+            it.response?.holidays
+        }
 }

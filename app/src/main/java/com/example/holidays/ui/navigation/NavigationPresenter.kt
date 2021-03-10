@@ -6,7 +6,4 @@ import com.example.holidays.ui.base.BaseMvpPresenter
 @InjectViewState
 class NavigationPresenter : BaseMvpPresenter<NavigationView>() {
 
-    fun onBackClicked(isDialogVisible: Boolean) {
-
-    }
 }

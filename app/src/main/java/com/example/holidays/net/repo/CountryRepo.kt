@@ -6,7 +6,7 @@ import io.reactivex.Observable
 
 class CountryRepo(private val api: CountryService) {
 
-    fun getCountries(): Observable<ArrayList<Country>> = api.getCountries().map {
+    fun getCountries(): Observable<MutableList<Country>> = api.getCountries().map {
         it.response?.countries
     }
 }

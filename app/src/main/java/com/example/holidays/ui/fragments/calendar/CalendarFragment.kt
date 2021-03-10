@@ -20,10 +20,5 @@ class CalendarFragment : BaseMvpFragment(), CalendarView {
 
     override fun onViewCreated(view: View) {
 
-        setOnClickListeners()
-    }
-
-    private fun setOnClickListeners() {
-
     }
 }

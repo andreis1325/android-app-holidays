@@ -17,6 +17,7 @@
         style="@style/CustomNumberPicker"
         android:id="@+id/vNpvYears"
         android:layout_width="150dp"
+        app:npv_WrapSelectorWheel="false"
         android:layout_gravity="center"
         android:layout_height="@dimen/dp_200"
         android:layout_marginTop="20dp" />

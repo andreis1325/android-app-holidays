@@ -4,13 +4,12 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.example.holidays.R
 import com.example.holidays.net.responses.Holiday
-import com.example.holidays.net.responses.HolidayResponse
 import com.example.holidays.ui.base.BaseListAdapter
 import com.example.holidays.ui.base.BaseViewHolder
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
 
-class HolidayAdapter (holidays: ArrayList<Holiday> = arrayListOf()) :
+class HolidayAdapter(holidays: ArrayList<Holiday> = arrayListOf()) :
     BaseListAdapter<Holiday>(holidays) {
 
     private val itemClickSubject = PublishSubject.create<Holiday>()

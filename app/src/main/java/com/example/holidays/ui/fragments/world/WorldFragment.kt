@@ -21,10 +21,6 @@ class WorldFragment : BaseMvpFragment(), WorldView {
     override fun getLayoutId(): Int = R.layout.fragment_world
 
     override fun onViewCreated(view: View) {
-        initOnClickListener()
-    }
-
-    private fun initOnClickListener() {
 
     }
 }

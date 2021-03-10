@@ -6,6 +6,7 @@ import com.example.holidays.net.services.ApiRest
 import com.example.holidays.model.PreferencesUtils
 import com.example.holidays.net.repo.CountryRepo
 import com.example.holidays.net.repo.HolidayRepo
+import com.example.holidays.net.repo.SharedPreferencesRepo
 import com.example.holidays.net.services.CountryService
 import com.example.holidays.net.services.HolidayService
 import io.github.inflationx.calligraphy3.CalligraphyConfig
@@ -24,6 +25,10 @@ class MyApp : Application() {
 
         bind<SharedPreferences>() with singleton {
             PreferencesUtils.getSharedPreferences(applicationContext)
+        }
+
+        bind<SharedPreferencesRepo>() with singleton {
+            SharedPreferencesRepo()
         }
         bind<Retrofit>() with singleton { ApiRest.getApi() }
 

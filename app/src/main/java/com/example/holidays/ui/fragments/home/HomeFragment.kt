@@ -4,22 +4,17 @@ import android.view.View
 import android.widget.Toast
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.example.gallery_settings.ui.base.BaseMvpFragment
-import com.example.gallery_settings.utils.extensions.gone
-import com.example.gallery_settings.utils.extensions.visible
+import com.example.holidays.utils.extensions.gone
+import com.example.holidays.utils.extensions.visible
 import com.example.holidays.R
 import com.example.holidays.net.responses.Country
 import com.example.holidays.net.responses.Holiday
-import com.example.holidays.net.responses.HolidayResponse
 import com.example.holidays.ui.fragments.home.holidayadapter.HolidayAdapter
-import com.example.holidays.ui.navigation.NavigationActivity
 import com.example.holidays.ui.startscreen.countriesadapter.CountriesAdapter
 import com.example.holidays.utils.extended.SimpleTextWatcher
-import kotlinx.android.synthetic.main.activity_navigation.*
 import kotlinx.android.synthetic.main.fragment_home.*
-import kotlinx.android.synthetic.main.fragment_home.vBsSelectCountry
 import kotlinx.android.synthetic.main.view_bottom_sheet.*
 import kotlinx.android.synthetic.main.view_year_details.*
-import java.util.*
 
 class HomeFragment : BaseMvpFragment(), HomeView {
 
@@ -31,6 +26,8 @@ class HomeFragment : BaseMvpFragment(), HomeView {
 
     companion object {
 
+        private const val FRICTION = 0.02f
+
         fun newInstance(): HomeFragment {
 
             return HomeFragment()
@@ -40,15 +37,13 @@ class HomeFragment : BaseMvpFragment(), HomeView {
     override fun getLayoutId(): Int = R.layout.fragment_home
 
     override fun onViewCreated(view: View) {
-        initAdapters()
-        homePresenter.onCreate(countriesAdapter.itemClickObservable)
-        initNumberPicker()
-        initOnClickListener()
-    }
 
-    private fun initAdapters() {
+        initOnClickListener()
         initCountryAdapter()
         initHolidayAdapter()
+        initNumberPicker()
+
+        homePresenter.onCreate(countriesAdapter.itemClickObservable)
     }
 
     private fun initHolidayAdapter() {
@@ -57,37 +52,38 @@ class HomeFragment : BaseMvpFragment(), HomeView {
     }
 
     private fun initCountryAdapter() {
-        vRvCountries.setHasFixedSize(true)
         countriesAdapter = CountriesAdapter()
         vRvCountries.adapter = countriesAdapter
     }
 
     private fun initNumberPicker() {
 
+        val min = resources.getInteger(R.integer.min_year)
+        val max = resources.getInteger(R.integer.max_year)
+
         vNpvYears.apply {
-            displayedValues =  Array(48){i -> (i+2000).toString()}
-            minValue = 2000
-            maxValue = 2047
-            setFriction(0.02f)
-            wrapSelectorWheel = false
+            displayedValues = Array(max - min+1) { index -> (index+min).toString() }
+            minValue = min
+            maxValue = max
+            setFriction(FRICTION)
         }
     }
 
     private fun initOnClickListener() {
 
-        vIvSearch.setOnClickListener{
+        vIvSearch.setOnClickListener {
             homePresenter.onSearchClicked()
         }
 
-        vIvCancel.setOnClickListener{
+        vIvCancel.setOnClickListener {
             homePresenter.onCancelClicked()
         }
 
-        vTvCountry.setOnClickListener{
+        vTvCountry.setOnClickListener {
             homePresenter.onCountryClicked()
         }
 
-        vTvYear.setOnClickListener{
+        vTvYear.setOnClickListener {
             homePresenter.onYearClicked()
         }
 
@@ -98,16 +94,16 @@ class HomeFragment : BaseMvpFragment(), HomeView {
             }
         })
 
-        vNpvYears.setOnValueChangedListener { picker, oldVal, newVal ->
+        vNpvYears.setOnValueChangedListener { _, _, newVal ->
             homePresenter.onNumberPickerValueChanged(newVal)
         }
 
-        vIvBack.setOnClickListener{
+        vIvBack.setOnClickListener {
             homePresenter.onBackClicked()
         }
     }
 
-    override fun setCountryAndYear(country: String?, year: Int) {
+    override fun setCountryAndYear(country: String, year: Int) {
         vTvCountry.text = country
         vTvYear.text = year.toString()
     }
@@ -116,11 +112,11 @@ class HomeFragment : BaseMvpFragment(), HomeView {
         vBsSelectCountry.toggle()
     }
 
-    override fun updateCountries(countryList: ArrayList<Country>) {
+    override fun updateCountries(countryList: MutableList<Country>) {
         countriesAdapter.setItems(countryList)
     }
 
-    override fun setCountry(country: String?) {
+    override fun setCountryAndCloseBottomSheet(country: String) {
         vBsSelectCountry.toggle()
         vEtCountrySearch.setText("")
         closeKeyboard()
@@ -136,7 +132,7 @@ class HomeFragment : BaseMvpFragment(), HomeView {
         vTvYear.text = year
     }
 
-    override fun updateHolidays(holidayList: ArrayList<Holiday>) {
+    override fun updateHolidays(holidayList: MutableList<Holiday>) {
         holidayAdapter.setItems(holidayList)
     }
 
@@ -146,6 +142,7 @@ class HomeFragment : BaseMvpFragment(), HomeView {
 
     override fun changeImageAndHideKeyboard() {
         vEtCountrySearch.setText("")
+
         vIvCancel.gone()
         vEtCountrySearch.gone()
 

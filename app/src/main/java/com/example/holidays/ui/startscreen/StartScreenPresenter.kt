@@ -1,33 +1,34 @@
 package com.example.holidays.ui.startscreen
 
-import android.content.SharedPreferences
-import android.widget.Toast
 import com.arellomobile.mvp.InjectViewState
 import com.example.holidays.MyApp
-import com.example.holidays.model.country
-import com.example.holidays.model.iso
-import com.example.holidays.model.year
 import com.example.holidays.net.repo.CountryRepo
+import com.example.holidays.net.repo.SharedPreferencesRepo
 import com.example.holidays.net.responses.Country
 import com.example.holidays.ui.base.BaseMvpPresenter
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import org.kodein.di.instance
+import java.util.*
 
 @InjectViewState
 class StartScreenPresenter : BaseMvpPresenter<StartScreenView>() {
 
-    private val sharedPreferences by MyApp.kodein.instance<SharedPreferences>()
+    private val sharedPreferencesRepo by MyApp.kodein.instance<SharedPreferencesRepo>()
     private val countryRepo by MyApp.kodein.instance<CountryRepo>()
 
-    private  var countryList: ArrayList<Country> = arrayListOf()
+    private var countryList: MutableList<Country> = arrayListOf()
     private var isFilledCountry = false
     private var isFilledYear = false
 
+    companion object {
+        private const val FILL_INFO = "Fill info"
+        private const val ERROR = "Error"
+    }
+
     fun onSelectCountryClicked() {
         viewState.showOrHideBottomSheetSelectCountry()
-
     }
 
     fun onSelectYearClicked() {
@@ -41,7 +42,7 @@ class StartScreenPresenter : BaseMvpPresenter<StartScreenView>() {
     }
 
     private fun showStartScreenOrGoToHolidays() {
-        if(sharedPreferences.year > 0)
+        if (sharedPreferencesRepo.getYear() > 0)
             viewState.goToNavigationActivity()
     }
 
@@ -51,11 +52,11 @@ class StartScreenPresenter : BaseMvpPresenter<StartScreenView>() {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
-                    countryList=it
+                    countryList = it
                     viewState.updateCountries(countryList)
-                    },
+                },
                     {
-                        viewState.showMessage("error")
+                        viewState.showMessage(ERROR)
                     }
                 )
         )
@@ -66,30 +67,24 @@ class StartScreenPresenter : BaseMvpPresenter<StartScreenView>() {
 
         addDisposable(
             itemClickObservable.subscribe {
-                sharedPreferences.country = it.countryName
-                sharedPreferences.iso = it.iso
-                viewState.setCountry(it.countryName)
+
+                sharedPreferencesRepo.setCountry(it.countryName)
+                sharedPreferencesRepo.setIso(it.iso)
+                viewState.setCountryAndCloseBottomSheet(it.countryName ?: "")
             }
         )
     }
 
     fun onTextChanged(text: CharSequence?) {
-        val searchText = text.toString()
-        val searchedCountries: ArrayList<Country> = arrayListOf()
 
-        for (item in countryList) {
-
-            if(item.countryName != null){
-                if (item.countryName.contains(searchText, true))
-                    searchedCountries.add(item)
-            }
-        }
-        viewState.updateCountries(searchedCountries)
+        viewState.updateCountries(countryList.filter { it ->
+            it.countryName?.toLowerCase(Locale.ROOT)?.contains(text.toString(), false) ?: false
+        } as MutableList<Country>)
     }
 
     fun onNumberPickerValueChanged(newVal: Int) {
         isFilledYear = true
-        sharedPreferences.year = newVal
+        sharedPreferencesRepo.setYear(newVal)
         viewState.setYear(newVal.toString())
     }
 
@@ -98,10 +93,10 @@ class StartScreenPresenter : BaseMvpPresenter<StartScreenView>() {
     }
 
     fun onNextClicked() {
-        if( isFilledCountry && isFilledYear)
+        if (isFilledCountry && isFilledYear)
             viewState.goToNavigationActivity()
         else
-            viewState.showMessage("Fill info!")
+            viewState.showMessage(FILL_INFO)
     }
 
     fun onCancelClicked() {
